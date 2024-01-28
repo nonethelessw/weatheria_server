@@ -1,5 +1,6 @@
+const ip = "http://172.28.106.242:8080";
 export async function getWeather(limit) {
-  const response = await fetch(`http://192.168.101.12:8080/api/recent?limit=${limit}`);
+  const response = await fetch(`${ip}/api/recent?limit=${limit}`);
   const data = await response.json();
   return {
     tempratureArray: data.map(entry => entry.temprature),
@@ -9,7 +10,7 @@ export async function getWeather(limit) {
 }
 
 export async function getWeatherAverage() {
-  const response = await fetch(`http://192.168.101.12:8080/api/todayAverage`);
+  const response = await fetch(`${ip}/api/todayAverage`);
   const value = await response.json(); 
   console.log(value);
   const element = document.getElementById("average");
@@ -17,14 +18,14 @@ export async function getWeatherAverage() {
 }
 
 export async function getWeatherMax() {
-  const response = await fetch(`http://192.168.101.12:8080/api/todayMax`);
+  const response = await fetch(`${ip}/api/todayMax`);
   const value = await response.json(); 
   const element = document.getElementById("max");
   element.innerHTML = value;
 }
 
 export async function getWeatherMin() {
-  const response = await fetch(`http://192.168.101.12:8080/api/todayMin`);
+  const response = await fetch(`${ip}/api/todayMin`);
   const value = await response.json(); 
   const element = document.getElementById("min");
   element.innerHTML = value;
