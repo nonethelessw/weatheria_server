@@ -2,6 +2,7 @@
 This is a server/frontend for weatheria project. Weatheria is an ecosystem for measuring temprature and creating a neat looking information from it. This server is pretty glueable considering you only need a database inserter. Currently this project is used alongside esp32 but I have plans to use this same server in other projects.
 To run this project simply
 ```sh
+gradlew wrapper
 ./gradlew bootrun
 ```
 and you should be fine (I think). Tested on linux, windows 10/11
