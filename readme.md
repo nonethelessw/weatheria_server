@@ -5,6 +5,10 @@ To run this project simply
 gradle wrapper
 ./gradlew bootrun
 ```
+To configure
++ change your ip on getWeather.js
++ ./install_deps.sh on resources/static/
+
 and you should be fine (I think). Tested on linux, windows 10/11
 # Note
 This thing is still highly work in progess since its just been few days I started making this. I have plans to add actually goodlooking frontend. I tried shoelace but didn't like. I also don't wanna go with a js framework. I'd have 3 things running just to host this data which is not what I want.
