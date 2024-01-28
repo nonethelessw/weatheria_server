@@ -1,6 +1,6 @@
 import { getWeather } from './getWeather.js';
 
-function formatDates (datesArray) {
+function formatDates(datesArray) {
   return datesArray.map(dateString => {
     const date = new Date(dateString);
     const month = date.toLocaleString('default', { month: 'short' });
@@ -11,39 +11,38 @@ function formatDates (datesArray) {
   });
 }
 
-export function showChart() {
 
+var limit
+function updateChart(chart, seriesTemperature, seriesHumidity) {
+
+  async function fetchDataAndUpdateChart() {
+    limit = document.getElementById('limit').value;
+    if (limit.trim().length === 0 || isNaN(limit)) {
+      limit = 10;
+    }
+    const { tempratureArray, humidityArray, datesArray } = await getWeather(limit);
+    const updatedFormattedDates = formatDates(datesArray);
+
+    chart.xAxis[0].setCategories(updatedFormattedDates.reverse());
+    seriesTemperature.setData(tempratureArray.reverse(), true, true);
+    seriesHumidity.setData(humidityArray.reverse(), true, true);
+  }
+
+  fetchDataAndUpdateChart();
+
+  setInterval(fetchDataAndUpdateChart, 1000);
+}
+
+export function showChart() {
   const chart = Highcharts.chart('container', {
     chart: {
       type: 'line',
       events: {
-
-        load: async function() {
+        load: function() {
           const seriesTemperature = this.series[0];
           const seriesHumidity = this.series[1];
-
-          // we call the database once on init
-          const { tempratureArray, humidityArray, datesArray } = await getWeather(10);
-
-          const formattedDates = formatDates(datesArray);
-
-          chart.xAxis[0].setCategories(formattedDates.reverse());
-
-          seriesTemperature.setData(tempratureArray.reverse(), true, true);
-          seriesHumidity.setData(humidityArray.reverse(), true, true);
-
-          setInterval(async function() {
-          // we call the database every 1 second
-            const { tempratureArray, humidityArray, datesArray } = await getWeather(10);
-            const updatedFormattedDates = formatDates(datesArray);
-
-            chart.xAxis[0].setCategories(updatedFormattedDates.reverse());
-            seriesTemperature.setData(tempratureArray.reverse(), true, true);
-            seriesHumidity.setData(humidityArray.reverse(), true, true);
-          }, 1000);
+          updateChart(this, seriesTemperature, seriesHumidity);
         }
-
-
       }
     },
     accessibility: {
